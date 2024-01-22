@@ -1,0 +1,23 @@
+<!-- interventions.component.html -->
+<table>
+    <thead>
+      <tr>
+        <th>surgeon</th>
+        <th>Anesthetist</th>
+        <th>Nurse 1</th>
+        <th>Nurse 2</th>
+        <th>Room</th>
+        <th>Operation</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let intervention of interventions">
+        <td>{{ intervention.surgeon }}</td>
+        <td>{{ intervention.anesthsiste }}</td>
+        <td>{{ intervention.nurse1 }}</td>
+        <td>{{ intervention.nurse2 }}</td>
+        <td>{{ intervention.roomNumber }}</td>
+        <td>{{ intervention.intervention }}</td>
+    </tbody>
+  </table>
+  
