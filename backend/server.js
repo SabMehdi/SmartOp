@@ -53,8 +53,18 @@ app.get('/api/surgeon-favorites', async (req, res) => {
 
     interventions.forEach(({ surgeon, anesthsiste, nurse1, nurse2, roomNumber, intervention }) => {
       if (!surgeonStats[surgeon]) {
-        surgeonStats[surgeon] = { anesthsiste: {}, nurse1: {}, nurse2: {}, roomNumber: {}, intervention: {} };
+        surgeonStats[surgeon] = { 
+          anesthsiste: {}, 
+          nurse1: {}, 
+          nurse2: {}, 
+          roomNumber: {}, 
+          intervention: {},
+          totalInterventions: 0 // Initialize total interventions counter
+        };
       }
+
+      // Increment total interventions for this surgeon
+      surgeonStats[surgeon].totalInterventions++;
 
       // Function to count occurrences
       const countOccurrence = (category, value) => {
@@ -78,12 +88,23 @@ app.get('/api/surgeon-favorites', async (req, res) => {
     for (let surgeon in surgeonStats) {
       favorites[surgeon] = {};
       for (let category in surgeonStats[surgeon]) {
-        let favorite = Object.keys(surgeonStats[surgeon][category]).reduce((a, b) => surgeonStats[surgeon][category][a] > surgeonStats[surgeon][category][b] ? a : b);
-        favorites[surgeon][category] = favorite;
+        if (category !== 'totalInterventions') {
+          let favorite = Object.keys(surgeonStats[surgeon][category]).reduce((a, b) => surgeonStats[surgeon][category][a] > surgeonStats[surgeon][category][b] ? a : b);
+          favorites[surgeon][category] = favorite;
+        }
       }
     }
 
-    res.json(favorites);
+    // Sort surgeons by total number of interventions
+    let sortedSurgeons = Object.keys(favorites).sort((a, b) => surgeonStats[b].totalInterventions - surgeonStats[a].totalInterventions);
+
+    // Create sorted response
+    let sortedResponse = {};
+    sortedSurgeons.forEach(surgeon => {
+      sortedResponse[surgeon] = favorites[surgeon];
+    });
+
+    res.json(sortedResponse);
   } catch (error) {
     res.status(500).send(error);
   }
