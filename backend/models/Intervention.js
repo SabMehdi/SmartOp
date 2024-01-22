@@ -8,7 +8,7 @@ const interventionSchema = new mongoose.Schema({
     nurse2:String,
     roomNumber:Number,
     typeIntervention:String
-},{collection:'opérations'});
+},{collection:'updatedData'});
 
 const Intervention = mongoose.model('Intervention', interventionSchema);
 

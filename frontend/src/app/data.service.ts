@@ -11,4 +11,8 @@ export class DataService {
   getInterventions(): Observable<any[]> {
     return this.http.get<any[]>(`${this.apiUrl}/interventions`);
   }
+  getFavorites(): Observable<any> {
+    return this.http.get(`${this.apiUrl}/surgeon-favorites`);
+  }
+  
 }

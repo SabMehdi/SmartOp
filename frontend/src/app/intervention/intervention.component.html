@@ -1,5 +1,28 @@
-<div *ngFor="let intervention of interventions">
-    <p>{{ intervention.surgeon }} - {{ intervention.specialty }}</p>
-    <!-- Display other fields as needed -->
-  </div>
-  
+<!-- surgeon-favorites.component.html -->
+<div *ngIf="interventions; else loading">
+  <table>
+    <thead>
+      <tr>
+        <th>Surgeon</th>
+        <th>Favorite Anesthetist</th>
+        <th>Favorite Nurse 1</th>
+        <th>Favorite Nurse 2</th>
+        <th>Favorite Room</th>
+        <th>Favorite Operation</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let surgeon of interventions | keyvalue">
+        <td>{{ surgeon.key }}</td>
+        <td>{{ surgeon.value.anesthsiste }}</td>
+        <td>{{ surgeon.value.nurse1 }}</td>
+        <td>{{ surgeon.value.nurse2 }}</td>
+        <td>{{ surgeon.value.roomNumber }}</td>
+        <td>{{ surgeon.value.intervention }}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+<ng-template #loading>
+  <p>Loading...</p>
+</ng-template>

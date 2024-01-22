@@ -1,4 +1,4 @@
-import { Component ,OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { DataService } from '../data.service';
 @Component({
   selector: 'app-intervention',
@@ -6,14 +6,16 @@ import { DataService } from '../data.service';
   styleUrl: './intervention.component.css'
 })
 export class InterventionComponent implements OnInit {
-  interventions: any[]=[]
+  interventions: any[] = []
 
   constructor(private dataService: DataService) { }
 
   ngOnInit(): void {
-    this.dataService.getInterventions().subscribe(data => {
+    this.dataService.getFavorites().subscribe(data => {
       this.interventions = data
       console.log(this.interventions)
+    }, error => {
+      console.error(error);
     });
   }
 }

@@ -31,8 +31,60 @@ app.listen(PORT, () => {
 app.get('/api/interventions', async (req, res) => {
   try {
     const interventions = await Intervention.find();
+
+
+
     res.json(interventions);
   } catch (error) {
     res.status(500).send(error.message);
+  }
+
+
+
+}
+
+
+);
+
+app.get('/api/surgeon-favorites', async (req, res) => {
+  try {
+    const interventions = await Intervention.find();
+    let surgeonStats = {};
+
+    interventions.forEach(({ surgeon, anesthsiste, nurse1, nurse2, roomNumber, typeIntervention }) => {
+      if (!surgeonStats[surgeon]) {
+        surgeonStats[surgeon] = { anesthsiste: {}, nurse1: {}, nurse2: {}, roomNumber: {}, typeIntervention: {} };
+      }
+
+      // Function to count occurrences
+      const countOccurrence = (category, value) => {
+        if (!surgeonStats[surgeon][category][value]) {
+          surgeonStats[surgeon][category][value] = 1;
+        } else {
+          surgeonStats[surgeon][category][value]++;
+        }
+      };
+
+      // Count occurrences for each category
+      countOccurrence('anesthsiste', anesthsiste);
+      countOccurrence('nurse1', nurse1);
+      countOccurrence('nurse2', nurse2);
+      countOccurrence('roomNumber', roomNumber);
+      countOccurrence('typeIntervention', typeIntervention);
+    });
+
+    // Determine favorites for each surgeon
+    let favorites = {};
+    for (let surgeon in surgeonStats) {
+      favorites[surgeon] = {};
+      for (let category in surgeonStats[surgeon]) {
+        let favorite = Object.keys(surgeonStats[surgeon][category]).reduce((a, b) => surgeonStats[surgeon][category][a] > surgeonStats[surgeon][category][b] ? a : b);
+        favorites[surgeon][category] = favorite;
+      }
+    }
+
+    res.json(favorites);
+  } catch (error) {
+    res.status(500).send(error);
   }
 });
