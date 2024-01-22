@@ -51,9 +51,9 @@ app.get('/api/surgeon-favorites', async (req, res) => {
     const interventions = await Intervention.find();
     let surgeonStats = {};
 
-    interventions.forEach(({ surgeon, anesthsiste, nurse1, nurse2, roomNumber, typeIntervention }) => {
+    interventions.forEach(({ surgeon, anesthsiste, nurse1, nurse2, roomNumber, intervention }) => {
       if (!surgeonStats[surgeon]) {
-        surgeonStats[surgeon] = { anesthsiste: {}, nurse1: {}, nurse2: {}, roomNumber: {}, typeIntervention: {} };
+        surgeonStats[surgeon] = { anesthsiste: {}, nurse1: {}, nurse2: {}, roomNumber: {}, intervention: {} };
       }
 
       // Function to count occurrences
@@ -70,7 +70,7 @@ app.get('/api/surgeon-favorites', async (req, res) => {
       countOccurrence('nurse1', nurse1);
       countOccurrence('nurse2', nurse2);
       countOccurrence('roomNumber', roomNumber);
-      countOccurrence('typeIntervention', typeIntervention);
+      countOccurrence('intervention', intervention);
     });
 
     // Determine favorites for each surgeon
