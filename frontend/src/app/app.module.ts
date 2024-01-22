@@ -6,17 +6,26 @@ import { AppComponent } from './app.component';
 import { InterventionComponent } from './intervention/intervention.component';
 import { HttpClientModule } from '@angular/common/http';
 import { AllInterventionsComponent } from './all-interventions/all-interventions.component';
+import { FormsModule } from '@angular/forms';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { NavbarComponent } from './navbar/navbar.component';
+import { HomeComponent } from './home/home.component';
 
 @NgModule({
   declarations: [
     AppComponent,
+    
     InterventionComponent,
-    AllInterventionsComponent
+    AllInterventionsComponent,
+    NavbarComponent,
+    HomeComponent,
+    
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
+    FormsModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
